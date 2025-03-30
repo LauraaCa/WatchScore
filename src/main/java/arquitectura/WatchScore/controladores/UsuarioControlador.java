@@ -1,5 +1,6 @@
 package arquitectura.WatchScore.controladores;
 
+import arquitectura.WatchScore.dto.UsuarioDTO;
 import arquitectura.WatchScore.persistencia.entidades.Usuario;
 import arquitectura.WatchScore.servicios.UsuarioServicio;
 import lombok.*;
@@ -23,8 +24,14 @@ public class UsuarioControlador {
     }
 
     @PostMapping("/")
-    public Usuario crearUsuario(@Valid @RequestBody Usuario usuario){
+    public UsuarioDTO crearUsuario(@Valid @RequestBody UsuarioDTO usuario){
         return usuarioServicio.crear(usuario);
     }
+
+    @PostMapping("/LogIn")
+    public Usuario autenticacion(@RequestBody Usuario usuario) {
+        return usuarioServicio.autenticacion(usuario.getEmail(), usuario.getContrasena());
+    }
+
 }
 

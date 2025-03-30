@@ -1,9 +1,11 @@
 package arquitectura.WatchScore.persistencia.entidades;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 import jakarta.validation.constraints.Email;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="usuarios")
@@ -14,7 +16,7 @@ import java.time.LocalDate;
 @Builder
 public class Usuario {
     @Id
-    private Long id;
+    private Long identificaion;
 
     @Column(unique = true)
     @Email(message = "El email no es valido")
@@ -23,9 +25,9 @@ public class Usuario {
     private String nombre;
     private String apellido;
     private Long celular;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaNacimiento;
     private String ciudad;
-    //private String foto;
     private String contrasena;
-
+    private LocalDateTime fechaRegistro;
 }

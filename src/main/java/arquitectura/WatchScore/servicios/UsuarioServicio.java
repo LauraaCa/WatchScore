@@ -1,8 +1,11 @@
 package arquitectura.WatchScore.servicios;
 
+import arquitectura.WatchScore.dto.UsuarioDTO;
 import arquitectura.WatchScore.persistencia.entidades.Usuario;
 import arquitectura.WatchScore.persistencia.repositorio.UsuarioRepositorio;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -20,12 +23,21 @@ public class UsuarioServicio {
         return usuarioRepositorio.findAll();
     }
 
-    public Usuario crear(Usuario usuario){
-        if (!esEmailValido(usuario.getEmail())) { throw new IllegalArgumentException("El email no es valido"); }
-        if (!validarContrasena(usuario.getContrasena())){ throw new IllegalArgumentException("Contraseña Invalida");}
-        if (!validaCelular(usuario.getCelular())) { throw new IllegalArgumentException("Celular no valido"); }
-        if( !fechaValida(usuario.getFechaNacimiento())) { throw new IllegalArgumentException("Edad no valida"); }
-        return usuarioRepositorio.save(usuario);
+    public UsuarioDTO crear(UsuarioDTO usuarioDTO){
+        Usuario usuario =Usuario.builder()
+                .identificaion(usuarioDTO.identificacion())
+                .nombre(usuarioDTO.nombre())
+                .apellido(usuarioDTO.apellido())
+                .email(usuarioDTO.email())
+                .contrasena(BCrypt.hashpw(usuarioDTO.contrasena(), BCrypt.gensalt()))
+                .ciudad(usuarioDTO.ciudad())
+                .fechaNacimiento(usuarioDTO.fechaNacimiento())
+                .fechaRegistro(LocalDateTime.now())
+                .build();
+
+        if (usuarioRepositorio.save(usuario).getIdentificaion()>0)
+            return usuarioDTO;
+        else return null;
     }
 
     private boolean esEmailValido(String email) {
@@ -46,6 +58,10 @@ public class UsuarioServicio {
     private static boolean fechaValida(LocalDate fechaNacimiento) {
         LocalDate hoy = LocalDate.now();
         return Period.between(fechaNacimiento, hoy).getYears() >= 12;
+    }
+    
+    public Usuario autenticacion(String email, String contrasena){
+        return usuarioRepositorio.findByEmailAndContrasena(email,contrasena);
     }
 
 }
