@@ -60,4 +60,13 @@ public class UsuarioServicio {
         return Period.between(fechaNacimiento, hoy).getYears() >= 12;
     }
 
+    public Usuario autenticacion(String email, String contrasena) {
+        Usuario usuario = usuarioRepositorio.findByEmail(email);
+
+        if (usuario != null && BCrypt.checkpw(contrasena, usuario.getContrasena())) {
+            return usuario;
+        }
+
+        return null;
+    }
 }
