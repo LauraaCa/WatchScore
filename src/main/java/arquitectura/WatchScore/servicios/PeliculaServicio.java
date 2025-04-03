@@ -1,8 +1,8 @@
 package arquitectura.WatchScore.servicios;
 
 import arquitectura.WatchScore.dto.PeliculasDTO;
-import arquitectura.WatchScore.persistencia.entidades.Peliculas;
-import arquitectura.WatchScore.persistencia.repositorio.PeliculasRepositorio;
+import arquitectura.WatchScore.persistencia.entidades.Pelicula;
+import arquitectura.WatchScore.persistencia.repositorio.PeliculaRepositorio;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,12 +10,11 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class PeliculasServicio {
-    PeliculasRepositorio peliculasRepositorio;
+public class PeliculaServicio {
+    PeliculaRepositorio peliculasRepositorio;
 
     public PeliculasDTO crear(PeliculasDTO peliculasDTO){
-        Peliculas peliculas = Peliculas.builder()
-                .idPelicula(peliculasDTO.idPelicula())
+        Pelicula peliculas = Pelicula.builder()
                 .tituloPelicula(peliculasDTO.tituloPelicula())
                 .directorPelicula(peliculasDTO.directorPelicula())
                 .lanzamiento(peliculasDTO.lanzamiento())
@@ -30,7 +29,7 @@ public class PeliculasServicio {
         else return null;
     }
 
-    public List<Peliculas> obtenerTodo(){
+    public List<Pelicula> obtenerTodo(){
         return peliculasRepositorio.findAll();
     }
 }

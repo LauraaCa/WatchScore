@@ -5,8 +5,7 @@ import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBl
 
 import java.time.LocalDate;
 
-public record SeriesDTO(@NotBlank  Long idSerie,
-                        String tituloSerie,
+public record SeriesDTO(@NotBlank String tituloSerie,
                         String directorSerie,
                         LocalDate lanzamiento,
                         Long temporadas,

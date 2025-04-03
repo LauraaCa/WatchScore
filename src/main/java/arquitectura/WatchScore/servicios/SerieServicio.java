@@ -1,8 +1,8 @@
 package arquitectura.WatchScore.servicios;
 
 import arquitectura.WatchScore.dto.SeriesDTO;
-import arquitectura.WatchScore.persistencia.entidades.Series;
-import arquitectura.WatchScore.persistencia.repositorio.SeriesRepositorio;
+import arquitectura.WatchScore.persistencia.entidades.Serie;
+import arquitectura.WatchScore.persistencia.repositorio.SerieRepositorio;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,11 +10,11 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class SeriesServicio {
-    SeriesRepositorio seriesRepositorio;
+public class SerieServicio {
+    SerieRepositorio seriesRepositorio;
 
     public SeriesDTO crear(SeriesDTO seriesDTO){
-        Series series = Series.builder()
+        Serie series = Serie.builder()
                 .tituloSerie(seriesDTO.tituloSerie())
                 .directorSerie(seriesDTO.directorSerie())
                 .lanzamiento(seriesDTO.lanzamiento())
@@ -30,7 +30,7 @@ public class SeriesServicio {
         else return null;
     }
 
-    public List<Series> obtenerTodo(){
+    public List<Serie> obtenerTodo(){
         return seriesRepositorio.findAll();
     }
 }

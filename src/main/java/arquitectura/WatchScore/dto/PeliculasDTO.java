@@ -4,8 +4,7 @@ import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBl
 
 import java.time.LocalDate;
 
-public record PeliculasDTO(@NotBlank Long idPelicula,
-                           String tituloPelicula,
+public record PeliculasDTO(@NotBlank String tituloPelicula,
                            String directorPelicula,
                            LocalDate lanzamiento,
                            String duracion,

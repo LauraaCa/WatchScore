@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Builder
@@ -15,9 +14,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Table(name="series")
 
-public class Series {
+public class Serie {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  //
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idSerie;
     private String tituloSerie;
     private String directorSerie;
