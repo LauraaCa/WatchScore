@@ -6,5 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface ActorRepositorio extends JpaRepository<Actor,Long> {
-    Optional<Actor> findByNombreActor(String nombreActor);
+    Optional<Actor> findByNombre(String nombre);
+
+    Actor findByid(Long id);
 }

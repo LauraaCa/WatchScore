@@ -17,11 +17,11 @@ import java.util.*;
 public class Pelicula {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idPelicula;
+    private Long id;
 
     @Column(unique = true)
-    private String tituloPelicula;
-    private String directorPelicula;
+    private String titulo;
+    private String director;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate lanzamiento;
@@ -33,10 +33,10 @@ public class Pelicula {
 
     @ManyToMany
     @JoinTable(
-            name = "pelicula_actor",
-            joinColumns = @JoinColumn(name = "pelicula_id"),
-            inverseJoinColumns = @JoinColumn(name = "actor_id")
+            name="pelicula_actor",
+            joinColumns = @JoinColumn(name="pelicula_id"),
+            inverseJoinColumns =  @JoinColumn(name="actor_id")
     )
-    private Set<Actor> actores= new HashSet<>();
+    private Set<Actor> actores = new HashSet<>();
 
 }

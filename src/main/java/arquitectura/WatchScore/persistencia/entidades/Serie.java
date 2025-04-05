@@ -34,10 +34,9 @@ public class Serie {
 
     @ManyToMany
     @JoinTable(
-            name = "serie_actor",
-            joinColumns = @JoinColumn(name = "serie_id"),
-            inverseJoinColumns = @JoinColumn(name = "actor_id")
+            name="serie_actor",
+            joinColumns = @JoinColumn(name="serie_idSerie"),
+            inverseJoinColumns = @JoinColumn(name="actor_id")
     )
-    private Set<Actor> actoresSerie= new HashSet<>();
-
+    private Set<Actor> actores = new HashSet<>();
 }

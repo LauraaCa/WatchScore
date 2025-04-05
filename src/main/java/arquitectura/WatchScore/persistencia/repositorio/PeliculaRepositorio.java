@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PeliculaRepositorio extends JpaRepository<Pelicula,Long> {
-    @Query("SELECT p FROM Pelicula p JOIN p.actores a WHERE a.nombreActor = :nombreActor")
-    List<Pelicula> findByActores(String nombreActor);
-    Pelicula findByTituloPelicula(String tituloPelicula);
+    //List<Pelicula> findByActores(String nombreActor);
+    //Pelicula findByTituloPelicula(String tituloPelicula);
 
 }

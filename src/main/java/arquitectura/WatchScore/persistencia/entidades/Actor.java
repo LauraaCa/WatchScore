@@ -19,10 +19,14 @@ public class Actor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
-    private String nombreActor;
+    private String nombre;
+
     @JsonIgnore
-    @ManyToMany(mappedBy = "actores")
+    @ManyToMany(mappedBy ="actores", fetch = FetchType.EAGER)
     private Set<Pelicula> peliculas = new HashSet<>();
-    @ManyToMany(mappedBy = "actoresSerie")
+
+    @JsonIgnore
+    @ManyToMany(mappedBy ="actores")
     private Set<Serie> series = new HashSet<>();
 }
+

@@ -18,27 +18,25 @@ import java.util.Optional;
 @CrossOrigin(origins = "*")
 
 public class PeliculaControlador {
-    PeliculaServicio peliculasServicio;
-
-    @GetMapping("/")
-    public List<Pelicula> obtenerTodo(){
-        return peliculasServicio.obtenerTodo();
-    }
-
-    @GetMapping("/titulo/{tituloPelicula}")
-    public Pelicula obtenerTitulo(@PathVariable String tituloPelicula){
-        return peliculasServicio.obtenerTitulo(tituloPelicula);
-    }
+    PeliculaServicio peliculaServicio;
 
     @PostMapping("/")
-    public PeliculasDTO crear(@RequestBody PeliculasDTO peliculas){
-        return peliculasServicio.crear(peliculas);
+    public ResponseEntity<Pelicula> crearPelicula(@RequestBody Pelicula pelicula) {
+        return ResponseEntity.ok(peliculaServicio.crearPelicula(pelicula));
     }
 
-    @GetMapping("/actor/{nombre}")
-    public List<Pelicula> obtenerPeliculasPorActor(@PathVariable String nombre) {
-        List<Pelicula> peliculas = peliculasServicio.obtenerPeliculasPorActor(nombre);
-        return peliculas;
+    @GetMapping("/")
+    public ResponseEntity<List<Pelicula>> listarPeliculas() {
+        return ResponseEntity.ok(peliculaServicio.listarPeliculas());
     }
 
+    @PostMapping("/{peliculaId}/actores/{actorId}")
+    public ResponseEntity<Pelicula> agregarActorAPelicula(@PathVariable Long peliculaId, @PathVariable Long actorId) {
+        Pelicula peliculaActualizada = peliculaServicio.agregarActorAPelicula(peliculaId, actorId);
+        if (peliculaActualizada != null) {
+            return ResponseEntity.ok(peliculaActualizada);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
