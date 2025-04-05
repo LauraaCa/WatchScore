@@ -3,6 +3,7 @@ package arquitectura.WatchScore.dto;
 import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public record PeliculasDTO(@NotBlank String tituloPelicula,
                            String directorPelicula,
@@ -10,5 +11,6 @@ public record PeliculasDTO(@NotBlank String tituloPelicula,
                            String duracion,
                            String genero,
                            String sipnosis,
-                           float calificacion){
+                           float calificacion,
+                           List<String> actores){
 }
