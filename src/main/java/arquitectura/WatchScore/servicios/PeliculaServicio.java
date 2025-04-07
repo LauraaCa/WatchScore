@@ -6,39 +6,62 @@ import arquitectura.WatchScore.persistencia.entidades.Pelicula;
 import arquitectura.WatchScore.persistencia.repositorio.ActorRepositorio;
 import arquitectura.WatchScore.persistencia.repositorio.PeliculaRepositorio;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class PeliculaServicio {
     PeliculaRepositorio peliculaRepositorio;
     ActorRepositorio actorRepositorio;
-    ActorServicio actorServicio;
 
-    public Pelicula crearPelicula(Pelicula pelicula) {
-        // Si la película tiene actores, los agregamos a la base de datos
-        if (pelicula.getActores() != null) {
-            Set<Actor> actores = new HashSet<>();
-            for (Actor actor : pelicula.getActores()) {
-                Optional<Actor> actorOpt = actorRepositorio.findByNombre(actor.getNombre());
-                if (actorOpt.isPresent()) {
-                    actores.add(actorOpt.get());
-                } else {
-                    // Manejo de error: actor no encontrado
-                    throw new RuntimeException("Actor no encontrado: " + actor.getNombre());
-                }
+    public PeliculasDTO crearPelicula(PeliculasDTO peliculasDTO) {
+        if (peliculasDTO.actores() == null) return null;
+
+        Set<Actor> actores = new HashSet<>();
+
+        for (String nombre : peliculasDTO.actores()) {
+            Optional<Actor> actorOpt = actorRepositorio.findByNombre(nombre);
+            if (actorOpt.isPresent()) {
+                actores.add(actorOpt.get());
+            } else {
+                throw new RuntimeException("Actor no encontrado: " + nombre);
             }
-            pelicula.setActores(actores);
         }
-        return peliculaRepositorio.save(pelicula);
+
+        Pelicula pelicula = Pelicula.builder()
+                .titulo(peliculasDTO.titulo())
+                .director(peliculasDTO.director())
+                .lanzamiento(peliculasDTO.lanzamiento())
+                .duracion(peliculasDTO.duracion())
+                .genero(peliculasDTO.genero())
+                .sipnosis(peliculasDTO.sipnosis())
+                .calificacion(peliculasDTO.calificacion())
+                .actores(actores)
+                .build();
+
+        Pelicula guardada = peliculaRepositorio.save(pelicula);
+
+        List<String> nombresActores = guardada.getActores().stream()
+                .map(Actor::getNombre)
+                .toList();
+
+        return new PeliculasDTO(
+                guardada.getTitulo(),
+                guardada.getDirector(),
+                guardada.getLanzamiento(),
+                guardada.getDuracion(),
+                guardada.getGenero(),
+                guardada.getSipnosis(),
+                guardada.getCalificacion(),
+                nombresActores
+        );
     }
+
 
     public List<Pelicula> listarPeliculas() {
         return peliculaRepositorio.findAll();
@@ -53,12 +76,12 @@ public class PeliculaServicio {
             Actor actor = actorOpt.get();
 
             pelicula.getActores().add(actor);
-            actor.getPeliculas().add(pelicula); // Asegúrate de mantener la relación bidireccional
+            actor.getPeliculas().add(pelicula);
 
             peliculaRepositorio.save(pelicula);
             return pelicula;
         }
-        return null; // O lanzar una excepción si prefieres
+        return null;
     }
 }
 

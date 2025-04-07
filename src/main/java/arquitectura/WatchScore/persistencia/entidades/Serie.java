@@ -19,9 +19,9 @@ import java.util.Set;
 public class Serie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idSerie;
-    private String tituloSerie;
-    private String directorSerie;
+    private Long id;
+    private String titulo;
+    private String director;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate lanzamiento;
@@ -35,7 +35,7 @@ public class Serie {
     @ManyToMany
     @JoinTable(
             name="serie_actor",
-            joinColumns = @JoinColumn(name="serie_idSerie"),
+            joinColumns = @JoinColumn(name="serie_id"),
             inverseJoinColumns = @JoinColumn(name="actor_id")
     )
     private Set<Actor> actores = new HashSet<>();
