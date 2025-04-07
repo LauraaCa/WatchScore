@@ -21,7 +21,7 @@ public class PeliculaControlador {
     PeliculaServicio peliculaServicio;
 
     @PostMapping("/")
-    public ResponseEntity<Pelicula> crearPelicula(@RequestBody Pelicula pelicula) {
+    public ResponseEntity<PeliculasDTO> crearPelicula(@RequestBody PeliculasDTO pelicula) {
         return ResponseEntity.ok(peliculaServicio.crearPelicula(pelicula));
     }
 

@@ -1,9 +1,12 @@
 package arquitectura.WatchScore.controladores;
 
+import arquitectura.WatchScore.dto.PeliculasDTO;
 import arquitectura.WatchScore.dto.SeriesDTO;
+import arquitectura.WatchScore.persistencia.entidades.Pelicula;
 import arquitectura.WatchScore.persistencia.entidades.Serie;
 import arquitectura.WatchScore.servicios.SerieServicio;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,11 +21,21 @@ public class SerieControlador {
 
     @GetMapping("/")
     public List<Serie> obtenerTodo(){
-        return seriesServicio.obtenerTodo();
+        return seriesServicio.listarSeries();
     }
 
     @PostMapping("/")
-    public SeriesDTO crear(@RequestBody SeriesDTO series){
-        return seriesServicio.crear(series);
+    public ResponseEntity<SeriesDTO> crearPelicula(@RequestBody SeriesDTO serie) {
+        return ResponseEntity.ok(seriesServicio.crearSerie(serie));
+    }
+
+    @PostMapping("/{serieId}/actores/{actorId}")
+    public ResponseEntity<Serie> agregarActorASerie(@PathVariable Long serieId, @PathVariable Long actorId) {
+        Serie serieActualizada = seriesServicio.agregarActorASerie(serieId, actorId);
+        if (serieActualizada != null) {
+            return ResponseEntity.ok(serieActualizada);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

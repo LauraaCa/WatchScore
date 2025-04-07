@@ -38,9 +38,14 @@ public class ActorServicio {
                         .map(Pelicula::getTitulo)
                         .toList();
 
+                    List<String> titulosSeries = actor.getSeries().stream()
+                            .map(Serie::getTitulo)
+                            .toList();
+
                     return new ActorDTO(
                             actor.getNombre(),
-                            titulosPeliculas
+                            titulosPeliculas,
+                            titulosSeries
                     );})
                 .toList();
     }
