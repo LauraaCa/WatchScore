@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Builder
@@ -30,4 +32,11 @@ public class Serie {
     private String sinopsis;
     private float calificacion;
 
+    @ManyToMany
+    @JoinTable(
+            name="serie_actor",
+            joinColumns = @JoinColumn(name="serie_idSerie"),
+            inverseJoinColumns = @JoinColumn(name="actor_id")
+    )
+    private Set<Actor> actores = new HashSet<>();
 }

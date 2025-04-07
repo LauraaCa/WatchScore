@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public record SeriesDTO(@NotBlank String tituloSerie,
                         String directorSerie,
@@ -12,5 +13,6 @@ public record SeriesDTO(@NotBlank String tituloSerie,
                         Long capitulos,
                         String duracionCapitulo,
                         String sinopsis,
-                        float calificacion) {
+                        float calificacion,
+                        List<String> actores) {
 }

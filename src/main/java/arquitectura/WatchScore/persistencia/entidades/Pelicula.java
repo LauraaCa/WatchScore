@@ -3,8 +3,9 @@ package arquitectura.WatchScore.persistencia.entidades;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDate;
+import java.util.*;
+
 
 @Entity
 @AllArgsConstructor
@@ -16,9 +17,11 @@ import java.time.LocalDate;
 public class Pelicula {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idPelicula;
-    private String tituloPelicula;
-    private String directorPelicula;
+    private Long id;
+
+    @Column(unique = true)
+    private String titulo;
+    private String director;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate lanzamiento;
@@ -27,5 +30,13 @@ public class Pelicula {
     private String genero;
     private String sipnosis;
     private float calificacion;
+
+    @ManyToMany
+    @JoinTable(
+            name="pelicula_actor",
+            joinColumns = @JoinColumn(name="pelicula_id"),
+            inverseJoinColumns =  @JoinColumn(name="actor_id")
+    )
+    private Set<Actor> actores = new HashSet<>();
 
 }
