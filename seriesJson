@@ -1,0 +1,60 @@
+  {
+    "idSerie": 1,
+    "tituloSerie": "Breaking Bad",
+    "directorSerie": "Vince Gilligan",
+    "lanzamiento": "2008-01-20",
+    "temporadas": 5,
+    "capitulos": 62,
+    "duracionCapitulo": "47m",
+    "sinopsis": "Un profesor de química con cáncer se convierte en un narcotraficante para asegurar el futuro de su familia.",
+    "calificacion": 9.5
+  }
+
+  {
+    "idSerie": 2,
+    "tituloSerie": "Game of Thrones",
+    "directorSerie": "David Benioff, D. B. Weiss",
+    "lanzamiento": "2011-04-17",
+    "temporadas": 8,
+    "capitulos": 73,
+    "duracionCapitulo": "55m",
+    "sinopsis": "Nobles familias luchan por el Trono de Hierro en un mundo de fantasía épica.",
+    "calificacion": 9.2
+  }
+
+  {
+    "idSerie": 3,
+    "tituloSerie": "Stranger Things",
+    "directorSerie": "Matt Duffer, Ross Duffer",
+    "lanzamiento": "2016-07-15",
+    "temporadas": 4,
+    "capitulos": 34,
+    "duracionCapitulo": "50m",
+    "sinopsis": "Un grupo de niños descubre misterios sobrenaturales en su pequeña ciudad.",
+    "calificacion": 8.7
+  }
+
+  {
+    "idSerie": 4,
+    "tituloSerie": "The Witcher",
+    "directorSerie": "Lauren Schmidt Hissrich",
+    "lanzamiento": "2019-12-20",
+    "temporadas": 3,
+    "capitulos": 24,
+    "duracionCapitulo": "60m",
+    "sinopsis": "Un cazador de monstruos lucha contra fuerzas oscuras mientras descubre su destino.",
+    "calificacion": 8.2
+  }
+
+  {
+    "idSerie": 5,
+    "tituloSerie": "Dark",
+    "directorSerie": "Baran bo Odar, Jantje Friese",
+    "lanzamiento": "2017-12-01",
+    "temporadas": 3,
+    "capitulos": 26,
+    "duracionCapitulo": "53m",
+    "sinopsis": "Un misterio de viajes en el tiempo que afecta a cuatro familias en un pequeño pueblo alemán.",
+    "calificacion": 8.8
+  }
+

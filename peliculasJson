@@ -1,0 +1,54 @@
+  {
+    "idPelicula": 1,
+    "tituloPelicula": "El Señor de los Anillos: La Comunidad del Anillo",
+    "directorPelicula": "Peter Jackson",
+    "lanzamiento": "2001-12-19",
+    "duracion": "2h 58m",
+    "genero": "Fantasía",
+    "sipnosis": "Un hobbit recibe un poderoso anillo y debe destruirlo antes de que caiga en manos del mal.",
+    "calificacion": 9.3
+  }
+
+  {
+    "idPelicula": 2,
+    "tituloPelicula": "Interestelar",
+    "directorPelicula": "Christopher Nolan",
+    "lanzamiento": "2014-11-07",
+    "duracion": "2h 49m",
+    "genero": "Ciencia ficción",
+    "sipnosis": "Un grupo de astronautas viaja a través de un agujero de gusano en busca de un nuevo hogar para la humanidad.",
+    "calificacion": 8.6
+  }
+
+  {
+    "idPelicula": 3,
+    "tituloPelicula": "El Padrino",
+    "directorPelicula": "Francis Ford Coppola",
+    "lanzamiento": "1972-03-24",
+    "duracion": "2h 55m",
+    "genero": "Crimen",
+    "sipnosis": "La historia de la familia mafiosa Corleone y su lucha por el poder.",
+    "calificacion": 9.2
+  }
+
+  {
+    "idPelicula": 4,
+    "tituloPelicula": "Titanic",
+    "directorPelicula": "James Cameron",
+    "lanzamiento": "1997-12-19",
+    "duracion": "3h 14m",
+    "genero": "Romance",
+    "sipnosis": "Una historia de amor trágica a bordo del barco más famoso de la historia.",
+    "calificacion": 7.8
+  }
+
+  {
+    "idPelicula": 5,
+    "tituloPelicula": "Avengers: Endgame",
+    "directorPelicula": "Anthony y Joe Russo",
+    "lanzamiento": "2019-04-26",
+    "duracion": "3h 1m",
+    "genero": "Acción",
+    "sipnosis": "Los Vengadores intentan revertir el chasquido de Thanos y salvar el universo.",
+    "calificacion": 8.4
+  }
