@@ -24,10 +24,30 @@ public class UsuarioServicio {
     }
 
     public UsuarioDTO crear(UsuarioDTO usuarioDTO){
+        if (!esEmailValido(usuarioDTO.email())) {
+            System.out.println("Correo inválido.");
+            return null;
+        }
+
+        if (!validarContrasena(usuarioDTO.contrasena())) {
+            System.out.println("Contraseña no cumple los requisitos.");
+            return null;
+        }
+
+        if (!validaCelular(usuarioDTO.celular())) {
+            System.out.println("Celular inválido.");
+            return null;
+        }
+
+        if (!fechaValida(usuarioDTO.fechaNacimiento())) {
+            System.out.println("El usuario debe tener al menos 12 años.");
+            return null;
+        }
         Usuario usuario =Usuario.builder()
-                .identificaion(usuarioDTO.identificacion())
+                .identificacion(usuarioDTO.identificacion())
                 .nombre(usuarioDTO.nombre())
                 .apellido(usuarioDTO.apellido())
+                .celular(usuarioDTO.celular())
                 .email(usuarioDTO.email())
                 .contrasena(BCrypt.hashpw(usuarioDTO.contrasena(), BCrypt.gensalt()))
                 .ciudad(usuarioDTO.ciudad())
@@ -35,7 +55,7 @@ public class UsuarioServicio {
                 .fechaRegistro(LocalDateTime.now())
                 .build();
 
-        if (usuarioRepositorio.save(usuario).getIdentificaion()>0)
+        if (usuarioRepositorio.save(usuario).getIdentificacion()>0)
             return usuarioDTO;
         else return null;
     }
@@ -50,6 +70,7 @@ public class UsuarioServicio {
         return contrasena.matches(regex);
     }
 
+
     private boolean validaCelular(Long celular) {
         String regex = "^3\\d{9}$";
         return String.valueOf(celular).matches(regex);
@@ -59,7 +80,6 @@ public class UsuarioServicio {
         LocalDate hoy = LocalDate.now();
         return Period.between(fechaNacimiento, hoy).getYears() >= 12;
     }
-
     public Usuario autenticacion(String email, String contrasena) {
         Usuario usuario = usuarioRepositorio.findByEmail(email);
 

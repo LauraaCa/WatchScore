@@ -12,7 +12,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/Usuarios")
+@RequestMapping("/usuarios")
 @CrossOrigin(origins = "*")
 
 public class UsuarioControlador {

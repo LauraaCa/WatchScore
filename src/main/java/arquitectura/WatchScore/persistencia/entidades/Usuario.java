@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 public class Usuario {
     @Id
-    private Long identificaion;
+    private Long identificacion;
 
     @Column(unique = true)
     @Email(message = "El email no es valido")
