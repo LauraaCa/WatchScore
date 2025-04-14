@@ -3,10 +3,11 @@ package arquitectura.WatchScore.persistencia.repositorio;
 import arquitectura.WatchScore.persistencia.entidades.Actor;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
+import java.util.*;
 
 public interface ActorRepositorio extends JpaRepository<Actor,Long> {
     Optional<Actor> findByNombre(String nombre);
 
-    Actor findByid(Long id);
+    List<Actor> findByNombreContainingIgnoreCase(String nombre);
+
 }
