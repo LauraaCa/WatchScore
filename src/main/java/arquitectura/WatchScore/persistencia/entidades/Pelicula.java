@@ -1,6 +1,7 @@
 package arquitectura.WatchScore.persistencia.entidades;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
@@ -38,5 +39,9 @@ public class Pelicula {
             inverseJoinColumns =  @JoinColumn(name="actor_id")
     )
     private Set<Actor> actores = new HashSet<>();
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "peliculas")
+    private Set<Lista> listas = new HashSet<>();
 
 }

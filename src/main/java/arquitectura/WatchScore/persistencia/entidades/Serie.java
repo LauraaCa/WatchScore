@@ -20,12 +20,14 @@ public class Serie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
     private String titulo;
     private String director;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate lanzamiento;
 
+    private String genero;
     private Long temporadas;
     private Long capitulos;
     private String duracionCapitulo;

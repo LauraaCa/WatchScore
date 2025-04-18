@@ -13,6 +13,7 @@ public record SeriesDTO(@NotBlank String titulo,
                         Long capitulos,
                         String duracionCapitulo,
                         String sinopsis,
+                        String genero,
                         float calificacion,
                         List<String> actores) {
 }

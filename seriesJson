@@ -1,60 +1,41 @@
-  {
-    "idSerie": 1,
-    "tituloSerie": "Breaking Bad",
-    "directorSerie": "Vince Gilligan",
-    "lanzamiento": "2008-01-20",
-    "temporadas": 5,
-    "capitulos": 62,
-    "duracionCapitulo": "47m",
-    "sinopsis": "Un profesor de química con cáncer se convierte en un narcotraficante para asegurar el futuro de su familia.",
-    "calificacion": 9.5
-  }
+INSERT INTO series (titulo, director, lanzamiento, temporadas, capitulos, duracion_Capitulo, sinopsis, calificacion)
+VALUES
+('Breaking Bad', 'Vince Gilligan', '2008-01-20', 5, 62, '47m', 'Un profesor de química con cáncer terminal se convierte en un fabricante de metanfetamina.', 9.5),
+('Game of Thrones', 'David Benioff, D.B. Weiss', '2011-04-17', 8, 73, '60m', 'Luchas por el control del trono de hierro en un mundo medieval lleno de magia y dragones.', 9.3),
+('Stranger Things', 'The Duffer Brothers', '2016-07-15', 4, 34, '50m', 'Un grupo de niños en los años 80 investiga sucesos extraños relacionados con un niño desaparecido y una niña con poderes telequinéticos.', 8.8),
+('The Mandalorian', 'Jon Favreau', '2019-11-12', 2, 16, '35m', 'Un cazarrecompensas solitario navega por los rincones más lejanos de la galaxia, en el universo de Star Wars.', 8.7),
+('The Witcher', 'Lauren Schmidt Hissrich', '2019-12-20', 2, 16, '60m', 'Un cazador de monstruos en un mundo medieval lucha con su destino mientras se enfrenta a seres fantásticos y magia.', 8.2),
+('The Crown', 'Peter Morgan', '2016-11-04', 4, 40, '58m', 'Una dramática serie sobre el reinado de la Reina Isabel II y los eventos históricos que marcaron su reinado.', 8.7),
+('Dark', 'Baran bo Odar, Jantje Friese', '2017-12-01', 3, 26, '50m', 'Una serie de misterio que explora los viajes en el tiempo y los secretos de un pequeño pueblo alemán, donde ocurren desapariciones misteriosas.', 8.8),
+('Money Heist', 'Álex Pina', '2017-05-02', 5, 41, '50m', 'Un grupo de criminales lleva a cabo un atraco al Real Casa de la Moneda de España, pero la situación se complica.', 8.3),
+('Friends', 'David Crane, Marta Kauffman', '1994-09-22', 10, 236, '22m', 'Un grupo de amigos en Nueva York navega por la vida y sus relaciones, mientras pasan por aventuras y desventuras.', 8.8),
+('The Office', 'Greg Daniels', '2005-03-24', 9, 201, '22m', 'Una comedia de estilo falso documental que sigue la vida de los empleados de una oficina de ventas de papel en Scranton, Pensilvania.', 8.9);
 
-  {
-    "idSerie": 2,
-    "tituloSerie": "Game of Thrones",
-    "directorSerie": "David Benioff, D. B. Weiss",
-    "lanzamiento": "2011-04-17",
-    "temporadas": 8,
-    "capitulos": 73,
-    "duracionCapitulo": "55m",
-    "sinopsis": "Nobles familias luchan por el Trono de Hierro en un mundo de fantasía épica.",
-    "calificacion": 9.2
-  }
 
-  {
-    "idSerie": 3,
-    "tituloSerie": "Stranger Things",
-    "directorSerie": "Matt Duffer, Ross Duffer",
-    "lanzamiento": "2016-07-15",
-    "temporadas": 4,
-    "capitulos": 34,
-    "duracionCapitulo": "50m",
-    "sinopsis": "Un grupo de niños descubre misterios sobrenaturales en su pequeña ciudad.",
-    "calificacion": 8.7
-  }
-
-  {
-    "idSerie": 4,
-    "tituloSerie": "The Witcher",
-    "directorSerie": "Lauren Schmidt Hissrich",
-    "lanzamiento": "2019-12-20",
-    "temporadas": 3,
-    "capitulos": 24,
-    "duracionCapitulo": "60m",
-    "sinopsis": "Un cazador de monstruos lucha contra fuerzas oscuras mientras descubre su destino.",
-    "calificacion": 8.2
-  }
-
-  {
-    "idSerie": 5,
-    "tituloSerie": "Dark",
-    "directorSerie": "Baran bo Odar, Jantje Friese",
-    "lanzamiento": "2017-12-01",
-    "temporadas": 3,
-    "capitulos": 26,
-    "duracionCapitulo": "53m",
-    "sinopsis": "Un misterio de viajes en el tiempo que afecta a cuatro familias en un pequeño pueblo alemán.",
-    "calificacion": 8.8
-  }
-
+INSERT INTO serie_actor (serie_id, actor_id) VALUES
+-- Breaking Bad
+(1, 1), -- Leonardo DiCaprio
+(1, 2), -- Christian Bale
+(1, 3), -- Anne Hathaway
+-- The Crown
+(2, 4), -- Matthew McConaughey
+(2, 5), -- Jessica Chastain
+-- Stranger Things
+(3, 6), -- Scarlett Johansson
+(3, 7), -- Johnny Depp
+(3, 8), -- Tom Hanks
+-- Game of Thrones
+(4, 9), -- Brad Pitt
+(4, 10), -- Emma Stone
+-- The Witcher
+(5, 1), -- Leonardo DiCaprio
+(5, 2), -- Christian Bale
+-- Money Heist
+(6, 3), -- Anne Hathaway
+(6, 4), -- Matthew McConaughey
+-- The Mandalorian
+(7, 5), -- Jessica Chastain
+(7, 6), -- Scarlett Johansson
+-- The Boys
+(8, 7), -- Johnny Depp
+(8, 8); -- Tom Hanks
