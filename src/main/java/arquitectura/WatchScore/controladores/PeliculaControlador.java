@@ -19,7 +19,6 @@ import java.util.Optional;
 
 public class PeliculaControlador {
     PeliculaServicio peliculaServicio;
-
     @PostMapping("/")
     public ResponseEntity<PeliculasDTO> crearPelicula(@RequestBody PeliculasDTO pelicula) {
         return ResponseEntity.ok(peliculaServicio.crearPelicula(pelicula));
