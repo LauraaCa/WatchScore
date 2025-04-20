@@ -38,4 +38,9 @@ public class PeliculaControlador {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/titulo/{titulo}")
+    public Pelicula obtenerXtitulo(@PathVariable String titulo){
+        return peliculaServicio.obtenerXtitulo(titulo);
+    }
 }

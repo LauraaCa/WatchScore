@@ -83,5 +83,9 @@ public class PeliculaServicio {
         }
         return null;
     }
+
+    public Pelicula obtenerXtitulo (String titulo){
+        return peliculaRepositorio.findByTitulo(titulo);
+    }
 }
 
