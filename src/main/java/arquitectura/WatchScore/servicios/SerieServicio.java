@@ -89,4 +89,7 @@ public class SerieServicio {
         return null;
     }
 
+    public Serie obtenerXtitulo (String titulo){
+        return seriesRepositorio.findByTitulo(titulo);
+    }
 }
