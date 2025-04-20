@@ -8,11 +8,7 @@ import arquitectura.WatchScore.persistencia.repositorio.ActorRepositorio;
 import arquitectura.WatchScore.persistencia.repositorio.PeliculaRepositorio;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -42,11 +38,16 @@ public class ActorServicio {
                             .map(Serie::getTitulo)
                             .toList();
 
-                    return new ActorDTO(
+                    return new ActorDTO(  
                             actor.getNombre(),
                             titulosPeliculas,
                             titulosSeries
                     );})
                 .toList();
     }
+
+    public List<Actor> obtenerXnombre(String palabraClave){
+        return actorRepositorio.findByNombreContainingIgnoreCase(palabraClave);
+    }
+
 }

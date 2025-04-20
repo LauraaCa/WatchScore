@@ -27,4 +27,9 @@ public class ActorControlador {
         return actorServicio.obtener();
     }
 
+    @GetMapping("/buscar/")
+    public List<Actor> buscarXnombre(@RequestParam String nombre){
+        return actorServicio.obtenerXnombre(nombre);
+    }
+
 }

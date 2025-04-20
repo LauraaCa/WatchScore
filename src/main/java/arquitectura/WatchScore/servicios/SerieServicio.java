@@ -42,6 +42,7 @@ public class SerieServicio {
                 .capitulos(seriesDTO.capitulos())
                 .duracionCapitulo(seriesDTO.duracionCapitulo())
                 .sinopsis(seriesDTO.sinopsis())
+                .genero(seriesDTO.genero())
                 .calificacion(seriesDTO.calificacion())
                 .actores(actores)
                 .build();
@@ -60,6 +61,7 @@ public class SerieServicio {
                 guardada.getCapitulos(),
                 guardada.getDuracionCapitulo(),
                 guardada.getSinopsis(),
+                guardada.getGenero(),
                 guardada.getCalificacion(),
                 nombresActores
         );
@@ -67,7 +69,7 @@ public class SerieServicio {
 
 
     public List<Serie> listarSeries(){
-        return seriesRepositorio.findAll();
+        return seriesRepositorio.findAllByOrderByTituloAsc();
     }
 
     public Serie agregarActorASerie(Long serieId, Long actorId) {
@@ -87,4 +89,7 @@ public class SerieServicio {
         return null;
     }
 
+    public Serie obtenerXtitulo (String titulo){
+        return seriesRepositorio.findByTitulo(titulo);
+    }
 }

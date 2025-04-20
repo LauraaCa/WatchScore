@@ -24,6 +24,11 @@ public class SerieControlador {
         return seriesServicio.listarSeries();
     }
 
+    @GetMapping("/titulo/{titulo}")
+    public Serie obtenerXtitulo(@PathVariable String titulo){
+        return seriesServicio.obtenerXtitulo(titulo);
+    }
+
     @PostMapping("/")
     public ResponseEntity<SeriesDTO> crearPelicula(@RequestBody SeriesDTO serie) {
         return ResponseEntity.ok(seriesServicio.crearSerie(serie));

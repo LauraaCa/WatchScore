@@ -6,6 +6,9 @@ import lombok.*;
 import jakarta.validation.constraints.Email;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="usuarios")
@@ -30,4 +33,7 @@ public class Usuario {
     private String ciudad;
     private String contrasena;
     private LocalDateTime fechaRegistro;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Lista> listas = new HashSet<>();
 }
