@@ -29,10 +29,16 @@ public class ListaControlador {
         return listaServicio.crearLista(usuarioId, lista);
     }
 
-    @PostMapping("/agregar/{listaId}/peliculas/{peliculaId}")
-    public ListaDTO agregarPeliculaALista(@PathVariable Long listaId, @PathVariable Long peliculaId) {
-        return listaServicio.agregarPeliculaALista(listaId, peliculaId);
+    @PostMapping("/agregar/{listaNombre}/peliculas/{titulo}")
+    public ListaDTO agregarPeliculaALista(@PathVariable String listaNombre, @PathVariable String titulo) {
+        return listaServicio.agregarContenidoALista(listaNombre, titulo, true); // esPelicula = true
     }
+
+    @PostMapping("/agregar/{listaNombre}/series/{titulo}")
+    public ListaDTO agregarSerieALista(@PathVariable String listaNombre, @PathVariable String titulo) {
+        return listaServicio.agregarContenidoALista(listaNombre, titulo, false); // esPelicula = false
+    }
+
 
     @GetMapping("/mis")
     public List<Lista> obtenerListasPorUsuario(HttpSession session) {

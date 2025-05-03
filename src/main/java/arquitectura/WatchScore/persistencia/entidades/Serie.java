@@ -1,6 +1,7 @@
 package arquitectura.WatchScore.persistencia.entidades;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -41,4 +42,8 @@ public class Serie {
             inverseJoinColumns = @JoinColumn(name="actor_id")
     )
     private Set<Actor> actores = new HashSet<>();
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "series")
+    private Set<Lista> listas = new HashSet<>();
 }
