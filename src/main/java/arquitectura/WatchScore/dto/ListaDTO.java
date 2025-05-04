@@ -5,6 +5,6 @@ import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBl
 import java.util.List;
 
 public record ListaDTO (@NotBlank String nombre,
-                        List<String> peliculas,
+                        List<String> contenido,
                         Long usuario) {
 }

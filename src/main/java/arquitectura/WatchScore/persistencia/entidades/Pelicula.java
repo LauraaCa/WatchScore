@@ -44,4 +44,5 @@ public class Pelicula {
     @ManyToMany(mappedBy = "peliculas")
     private Set<Lista> listas = new HashSet<>();
 
+
 }
