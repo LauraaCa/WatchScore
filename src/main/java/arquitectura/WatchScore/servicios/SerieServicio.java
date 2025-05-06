@@ -2,9 +2,11 @@ package arquitectura.WatchScore.servicios;
 
 import arquitectura.WatchScore.dto.SeriesDTO;
 import arquitectura.WatchScore.persistencia.entidades.Actor;
+import arquitectura.WatchScore.persistencia.entidades.Director;
 import arquitectura.WatchScore.persistencia.entidades.Pelicula;
 import arquitectura.WatchScore.persistencia.entidades.Serie;
 import arquitectura.WatchScore.persistencia.repositorio.ActorRepositorio;
+import arquitectura.WatchScore.persistencia.repositorio.DirectorRepositorio;
 import arquitectura.WatchScore.persistencia.repositorio.SerieRepositorio;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ import java.util.Set;
 public class SerieServicio {
     SerieRepositorio seriesRepositorio;
     ActorRepositorio actorRepositorio;
+    DirectorRepositorio directorRepositorio;
 
     public SeriesDTO crearSerie(SeriesDTO seriesDTO) {
         if (seriesDTO.actores() == null) return null;
@@ -34,9 +37,12 @@ public class SerieServicio {
             }
         }
 
+        Director director = directorRepositorio.findByNombre(seriesDTO.director())
+                .orElseThrow(() -> new RuntimeException("Director no encontrado: " + seriesDTO.director()));
+
         Serie serie = Serie.builder()
                 .titulo(seriesDTO.titulo())
-                .director(seriesDTO.director())
+                .director(director)
                 .lanzamiento(seriesDTO.lanzamiento())
                 .temporadas(seriesDTO.temporadas())
                 .capitulos(seriesDTO.capitulos())
@@ -55,7 +61,7 @@ public class SerieServicio {
 
         return new SeriesDTO(
                 guardada.getTitulo(),
-                guardada.getDirector(),
+                guardada.getDirector().getNombre(),
                 guardada.getLanzamiento(),
                 guardada.getTemporadas(),
                 guardada.getCapitulos(),

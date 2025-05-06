@@ -22,7 +22,6 @@ public class Pelicula {
 
     @Column(unique = true)
     private String titulo;
-    private String director;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate lanzamiento;
@@ -40,9 +39,13 @@ public class Pelicula {
     )
     private Set<Actor> actores = new HashSet<>();
 
+    @ManyToOne
+    @JoinColumn(name = "director_id")
+    private Director director;
+
+
     @JsonIgnore
     @ManyToMany(mappedBy = "peliculas")
     private Set<Lista> listas = new HashSet<>();
-
 
 }

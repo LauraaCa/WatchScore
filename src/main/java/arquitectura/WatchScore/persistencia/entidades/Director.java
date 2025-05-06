@@ -6,33 +6,36 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.*;
-
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
+@Table(name="directores")
+@Builder
 @Getter
 @Setter
-@Builder
-@Table(name="actores")
+@AllArgsConstructor
+@NoArgsConstructor
 
-public class Actor {
+public class Director {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
     private String nombre;
     private String nacionalidad;
+    private String genero;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaNacimiento;
-    private String genero;
 
     @JsonIgnore
-    @ManyToMany(mappedBy ="actores", fetch = FetchType.EAGER)
+    @OneToMany (mappedBy ="director", fetch = FetchType.EAGER)
     private Set<Pelicula> peliculas = new HashSet<>();
 
     @JsonIgnore
-    @ManyToMany(mappedBy ="actores")
+    @OneToMany(mappedBy ="director", cascade= CascadeType.ALL)
     private Set<Serie> series = new HashSet<>();
+
+
 }

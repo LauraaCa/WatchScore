@@ -2,8 +2,10 @@ package arquitectura.WatchScore.servicios;
 
 import arquitectura.WatchScore.dto.PeliculasDTO;
 import arquitectura.WatchScore.persistencia.entidades.Actor;
+import arquitectura.WatchScore.persistencia.entidades.Director;
 import arquitectura.WatchScore.persistencia.entidades.Pelicula;
 import arquitectura.WatchScore.persistencia.repositorio.ActorRepositorio;
+import arquitectura.WatchScore.persistencia.repositorio.DirectorRepositorio;
 import arquitectura.WatchScore.persistencia.repositorio.PeliculaRepositorio;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import java.util.Set;
 public class PeliculaServicio {
     PeliculaRepositorio peliculaRepositorio;
     ActorRepositorio actorRepositorio;
+    DirectorRepositorio directorRepositorio;
 
     public PeliculasDTO crearPelicula(PeliculasDTO peliculasDTO) {
         if (peliculasDTO.actores() == null) return null;
@@ -33,9 +36,12 @@ public class PeliculaServicio {
             }
         }
 
+        Director director = directorRepositorio.findByNombre(peliculasDTO.director())
+                .orElseThrow(() -> new RuntimeException("Director no encontrado: " + peliculasDTO.director()));
+
         Pelicula pelicula = Pelicula.builder()
                 .titulo(peliculasDTO.titulo())
-                .director(peliculasDTO.director())
+                .director(director)
                 .lanzamiento(peliculasDTO.lanzamiento())
                 .duracion(peliculasDTO.duracion())
                 .genero(peliculasDTO.genero())
@@ -52,7 +58,7 @@ public class PeliculaServicio {
 
         return new PeliculasDTO(
                 guardada.getTitulo(),
-                guardada.getDirector(),
+                guardada.getDirector().getNombre(),
                 guardada.getLanzamiento(),
                 guardada.getDuracion(),
                 guardada.getGenero(),
@@ -88,4 +94,3 @@ public class PeliculaServicio {
         return peliculaRepositorio.findByTitulo(titulo);
     }
 }
-
