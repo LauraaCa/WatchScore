@@ -1,7 +1,6 @@
 package arquitectura.WatchScore.persistencia.entidades;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,7 +22,6 @@ public class Serie {
     private Long id;
     @Column(unique = true)
     private String titulo;
-    private String director;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate lanzamiento;
@@ -43,7 +41,7 @@ public class Serie {
     )
     private Set<Actor> actores = new HashSet<>();
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "series")
-    private Set<Lista> listas = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "director_id")
+    private Director director;
 }

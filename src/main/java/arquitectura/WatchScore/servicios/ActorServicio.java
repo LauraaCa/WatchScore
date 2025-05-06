@@ -20,6 +20,9 @@ public class ActorServicio {
 
         Actor actor = Actor.builder()
                 .nombre(actorDTO.nombre())
+                .fechaNacimiento(actorDTO.fechaNacimiento())
+                .nacionalidad(actorDTO.nacionalidad())
+                .genero(actorDTO.genero())
                 .build();
 
         if (actorRepositorio.save(actor).getId()>0)
@@ -38,8 +41,11 @@ public class ActorServicio {
                             .map(Serie::getTitulo)
                             .toList();
 
-                    return new ActorDTO(  
+                    return new ActorDTO(
                             actor.getNombre(),
+                            actor.getFechaNacimiento(),
+                            actor.getNacionalidad(),
+                            actor.getGenero(),
                             titulosPeliculas,
                             titulosSeries
                     );})
