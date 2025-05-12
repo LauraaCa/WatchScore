@@ -4,10 +4,12 @@ import arquitectura.WatchScore.dto.UsuarioDTO;
 import arquitectura.WatchScore.persistencia.entidades.Usuario;
 import arquitectura.WatchScore.persistencia.repositorio.UsuarioRepositorio;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.*;
 import java.util.List;
@@ -23,27 +25,29 @@ public class UsuarioServicio {
         return usuarioRepositorio.findAll();
     }
 
+
     public UsuarioDTO crear(UsuarioDTO usuarioDTO){
         if (!esEmailValido(usuarioDTO.email())) {
-            System.out.println("Correo inválido.");
-            return null;
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Correo inválido");
         }
 
         if (!validarContrasena(usuarioDTO.contrasena())) {
-            System.out.println("Contraseña no cumple los requisitos.");
-            return null;
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La contraseña debe tener entre 8 y 16 caracteres, incluir mayúsculas, minúsculas, un número y un carácter especial");
         }
 
         if (!validaCelular(usuarioDTO.celular())) {
-            System.out.println("Celular inválido.");
-            return null;
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Número de celular inválido");
         }
 
         if (!fechaValida(usuarioDTO.fechaNacimiento())) {
-            System.out.println("El usuario debe tener al menos 12 años.");
-            return null;
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El usuario debe tener al menos 12 años");
         }
-        Usuario usuario =Usuario.builder()
+
+        if (usuarioRepositorio.findByEmail(usuarioDTO.email()) != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El correo ya está registrado");
+        }
+
+        Usuario usuario = Usuario.builder()
                 .identificacion(usuarioDTO.identificacion())
                 .nombre(usuarioDTO.nombre())
                 .apellido(usuarioDTO.apellido())
@@ -55,10 +59,10 @@ public class UsuarioServicio {
                 .fechaRegistro(LocalDateTime.now())
                 .build();
 
-        if (usuarioRepositorio.save(usuario).getIdentificacion()>0)
-            return usuarioDTO;
-        else return null;
+        usuarioRepositorio.save(usuario);
+        return usuarioDTO;
     }
+
 
     private boolean esEmailValido(String email) {
         String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
