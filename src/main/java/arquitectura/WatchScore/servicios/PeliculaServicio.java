@@ -8,7 +8,9 @@ import arquitectura.WatchScore.persistencia.repositorio.ActorRepositorio;
 import arquitectura.WatchScore.persistencia.repositorio.DirectorRepositorio;
 import arquitectura.WatchScore.persistencia.repositorio.PeliculaRepositorio;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashSet;
 import java.util.List;
@@ -18,12 +20,19 @@ import java.util.Set;
 @Service
 @AllArgsConstructor
 public class PeliculaServicio {
+
     PeliculaRepositorio peliculaRepositorio;
     ActorRepositorio actorRepositorio;
     DirectorRepositorio directorRepositorio;
 
     public PeliculasDTO crearPelicula(PeliculasDTO peliculasDTO) {
-        if (peliculasDTO.actores() == null) return null;
+        if (peliculasDTO.actores() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Debe ingresar al menos un actor.");
+        }
+
+        if (peliculaRepositorio.findByTitulo(peliculasDTO.titulo()) != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La película ya está registrada con ese título.");
+        }
 
         Set<Actor> actores = new HashSet<>();
 
@@ -32,12 +41,12 @@ public class PeliculaServicio {
             if (actorOpt.isPresent()) {
                 actores.add(actorOpt.get());
             } else {
-                throw new RuntimeException("Actor no encontrado: " + nombre);
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Actor no encontrado: " + nombre);
             }
         }
 
         Director director = directorRepositorio.findByNombre(peliculasDTO.director())
-                .orElseThrow(() -> new RuntimeException("Director no encontrado: " + peliculasDTO.director()));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Director no encontrado: " + peliculasDTO.director()));
 
         Pelicula pelicula = Pelicula.builder()
                 .titulo(peliculasDTO.titulo())
@@ -68,7 +77,6 @@ public class PeliculaServicio {
         );
     }
 
-
     public List<Pelicula> listarPeliculas() {
         return peliculaRepositorio.findAll();
     }
@@ -84,13 +92,13 @@ public class PeliculaServicio {
             pelicula.getActores().add(actor);
             actor.getPeliculas().add(pelicula);
 
-            peliculaRepositorio.save(pelicula);
-            return pelicula;
+            return peliculaRepositorio.save(pelicula);
         }
-        return null;
+
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Película o actor no encontrados.");
     }
 
-    public Pelicula obtenerXtitulo (String titulo){
+    public Pelicula obtenerXtitulo(String titulo) {
         return peliculaRepositorio.findByTitulo(titulo);
     }
 }

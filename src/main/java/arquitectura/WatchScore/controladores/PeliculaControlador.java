@@ -3,25 +3,32 @@ package arquitectura.WatchScore.controladores;
 import arquitectura.WatchScore.dto.PeliculasDTO;
 import arquitectura.WatchScore.persistencia.entidades.Pelicula;
 import arquitectura.WatchScore.servicios.PeliculaServicio;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequestMapping("/peliculas")
 @RestController
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
-
 public class PeliculaControlador {
-    PeliculaServicio peliculaServicio;
+
+    private final PeliculaServicio peliculaServicio;
+
     @PostMapping("/")
-    public ResponseEntity<PeliculasDTO> crearPelicula(@RequestBody PeliculasDTO pelicula) {
-        return ResponseEntity.ok(peliculaServicio.crearPelicula(pelicula));
+    public ResponseEntity<?> crearPelicula(@RequestBody PeliculasDTO pelicula) {
+        try {
+            PeliculasDTO creada = peliculaServicio.crearPelicula(pelicula);
+            return ResponseEntity.status(HttpStatus.CREATED).body(creada);
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(e.getReason());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear película");
+        }
     }
 
     @GetMapping("/")
@@ -30,17 +37,24 @@ public class PeliculaControlador {
     }
 
     @PostMapping("/{peliculaId}/actores/{actorId}")
-    public ResponseEntity<Pelicula> agregarActorAPelicula(@PathVariable Long peliculaId, @PathVariable Long actorId) {
-        Pelicula peliculaActualizada = peliculaServicio.agregarActorAPelicula(peliculaId, actorId);
-        if (peliculaActualizada != null) {
+    public ResponseEntity<?> agregarActorAPelicula(@PathVariable Long peliculaId, @PathVariable Long actorId) {
+        try {
+            Pelicula peliculaActualizada = peliculaServicio.agregarActorAPelicula(peliculaId, actorId);
             return ResponseEntity.ok(peliculaActualizada);
-        } else {
-            return ResponseEntity.notFound().build();
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(e.getReason());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al agregar actor");
         }
     }
 
     @GetMapping("/titulo/{titulo}")
-    public Pelicula obtenerXtitulo(@PathVariable String titulo){
-        return peliculaServicio.obtenerXtitulo(titulo);
+    public ResponseEntity<?> obtenerXtitulo(@PathVariable String titulo) {
+        Pelicula pelicula = peliculaServicio.obtenerXtitulo(titulo);
+        if (pelicula != null) {
+            return ResponseEntity.ok(pelicula);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Película no encontrada");
+        }
     }
 }

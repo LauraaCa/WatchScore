@@ -6,27 +6,26 @@ import arquitectura.WatchScore.persistencia.repositorio.UsuarioRepositorio;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.List;
 import java.util.regex.Pattern;
 
 @Service
 @AllArgsConstructor
-
 public class UsuarioServicio {
+
     UsuarioRepositorio usuarioRepositorio;
 
-    public List<Usuario> obtenerTodos(){
+    public List<Usuario> obtenerTodos() {
         return usuarioRepositorio.findAll();
     }
 
-
-    public UsuarioDTO crear(UsuarioDTO usuarioDTO){
+    public UsuarioDTO crear(UsuarioDTO usuarioDTO) {
         if (!esEmailValido(usuarioDTO.email())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Correo inválido");
         }
@@ -47,6 +46,14 @@ public class UsuarioServicio {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El correo ya está registrado");
         }
 
+        if (usuarioRepositorio.findByIdentificacion(usuarioDTO.identificacion()) != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La identificación ya está registrada");
+        }
+
+        if (usuarioRepositorio.findByCelular(usuarioDTO.celular()) != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El número de celular ya está registrado");
+        }
+
         Usuario usuario = Usuario.builder()
                 .identificacion(usuarioDTO.identificacion())
                 .nombre(usuarioDTO.nombre())
@@ -63,7 +70,6 @@ public class UsuarioServicio {
         return usuarioDTO;
     }
 
-
     private boolean esEmailValido(String email) {
         String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
         return Pattern.matches(emailRegex, email);
@@ -74,7 +80,6 @@ public class UsuarioServicio {
         return contrasena.matches(regex);
     }
 
-
     private boolean validaCelular(Long celular) {
         String regex = "^3\\d{9}$";
         return String.valueOf(celular).matches(regex);
@@ -84,13 +89,12 @@ public class UsuarioServicio {
         LocalDate hoy = LocalDate.now();
         return Period.between(fechaNacimiento, hoy).getYears() >= 12;
     }
+
     public Usuario autenticacion(String email, String contrasena) {
         Usuario usuario = usuarioRepositorio.findByEmail(email);
-
         if (usuario != null && BCrypt.checkpw(contrasena, usuario.getContrasena())) {
             return usuario;
         }
-
         return null;
     }
 }

@@ -6,8 +6,10 @@ import arquitectura.WatchScore.persistencia.entidades.Pelicula;
 import arquitectura.WatchScore.persistencia.entidades.Serie;
 import arquitectura.WatchScore.servicios.SerieServicio;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -29,10 +31,19 @@ public class SerieControlador {
         return seriesServicio.obtenerXtitulo(titulo);
     }
 
+
     @PostMapping("/")
-    public ResponseEntity<SeriesDTO> crearPelicula(@RequestBody SeriesDTO serie) {
-        return ResponseEntity.ok(seriesServicio.crearSerie(serie));
+    public ResponseEntity<?> crearSerie(@RequestBody SeriesDTO serie) {
+        try {
+            SeriesDTO creada = seriesServicio.crearSerie(serie);
+            return ResponseEntity.status(HttpStatus.CREATED).body(creada);
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(e.getReason());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear serie");
+        }
     }
+
 
     @PostMapping("/{serieId}/actores/{actorId}")
     public ResponseEntity<Serie> agregarActorASerie(@PathVariable Long serieId, @PathVariable Long actorId) {

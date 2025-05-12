@@ -1,5 +1,6 @@
 package arquitectura.WatchScore.servicios;
 
+import arquitectura.WatchScore.dto.PeliculasDTO;
 import arquitectura.WatchScore.dto.SeriesDTO;
 import arquitectura.WatchScore.persistencia.entidades.Actor;
 import arquitectura.WatchScore.persistencia.entidades.Director;
@@ -9,7 +10,9 @@ import arquitectura.WatchScore.persistencia.repositorio.ActorRepositorio;
 import arquitectura.WatchScore.persistencia.repositorio.DirectorRepositorio;
 import arquitectura.WatchScore.persistencia.repositorio.SerieRepositorio;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashSet;
 import java.util.List;
@@ -24,21 +27,28 @@ public class SerieServicio {
     DirectorRepositorio directorRepositorio;
 
     public SeriesDTO crearSerie(SeriesDTO seriesDTO) {
-        if (seriesDTO.actores() == null) return null;
+        if (seriesDTO.actores() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Debe ingresar al menos un actor.");
+        }
+
+        if (seriesRepositorio.findByTitulo(seriesDTO.titulo()) != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La serie ya está registrada con ese título.");
+        }
 
         Set<Actor> actores = new HashSet<>();
 
         for (String nombre : seriesDTO.actores()) {
-            Optional<Actor> actorOPT = actorRepositorio.findByNombre(nombre);
-            if (actorOPT.isPresent()) {
-                actores.add(actorOPT.get());
+            Optional<Actor> actorOpt = actorRepositorio.findByNombre(nombre);
+            if (actorOpt.isPresent()) {
+                actores.add(actorOpt.get());
             } else {
-                throw new RuntimeException("..");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Actor no encontrado: " + nombre);
             }
         }
 
         Director director = directorRepositorio.findByNombre(seriesDTO.director())
-                .orElseThrow(() -> new RuntimeException("Director no encontrado: " + seriesDTO.director()));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Director no encontrado: " + seriesDTO.director()));
+
 
         Serie serie = Serie.builder()
                 .titulo(seriesDTO.titulo())
