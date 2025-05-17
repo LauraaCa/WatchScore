@@ -7,6 +7,7 @@ import arquitectura.WatchScore.persistencia.entidades.Pelicula;
 import arquitectura.WatchScore.persistencia.repositorio.ActorRepositorio;
 import arquitectura.WatchScore.persistencia.repositorio.DirectorRepositorio;
 import arquitectura.WatchScore.persistencia.repositorio.PeliculaRepositorio;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -101,4 +103,60 @@ public class PeliculaServicio {
     public Pelicula obtenerXtitulo(String titulo) {
         return peliculaRepositorio.findByTitulo(titulo);
     }
+    @Transactional
+    public PeliculasDTO actualizarPelicula(Long id, PeliculasDTO peliculasDTO) {
+        Pelicula pelicula = peliculaRepositorio.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Película no encontrada con ID: " + id));
+
+        // Verificar actores
+        if (peliculasDTO.actores() == null || peliculasDTO.actores().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Debe ingresar al menos un actor.");
+        }
+
+        Set<Actor> actores = new HashSet<>();
+        for (String nombre : peliculasDTO.actores()) {
+            Actor actor = actorRepositorio.findByNombre(nombre)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Actor no encontrado: " + nombre));
+            actores.add(actor);
+        }
+
+        // Verificar director
+        Director director = directorRepositorio.findByNombre(peliculasDTO.director())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Director no encontrado: " + peliculasDTO.director()));
+
+        // Actualizar campos
+        pelicula.setTitulo(peliculasDTO.titulo());
+        pelicula.setDuracion(peliculasDTO.duracion());
+        pelicula.setGenero(peliculasDTO.genero());
+        pelicula.setLanzamiento(peliculasDTO.lanzamiento());
+        pelicula.setSipnosis(peliculasDTO.sipnosis());
+        pelicula.setCalificacion(peliculasDTO.calificacion());
+        pelicula.setDirector(director);
+        pelicula.setActores(actores);
+
+        Pelicula actualizada = peliculaRepositorio.save(pelicula);
+
+        List<String> nombresActores = actualizada.getActores().stream()
+                .map(Actor::getNombre)
+                .collect(Collectors.toList());
+
+        return new PeliculasDTO(
+                actualizada.getTitulo(),
+                actualizada.getDirector().getNombre(),
+                actualizada.getLanzamiento(),
+                actualizada.getDuracion(),
+                actualizada.getGenero(),
+                actualizada.getSipnosis(),
+                actualizada.getCalificacion(),
+                nombresActores
+        );
+    }
+
+    public void eliminarPelicula(Long id) {
+        if (!peliculaRepositorio.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Película no encontrada con ID: " + id);
+        }
+        peliculaRepositorio.deleteById(id);
+    }
+
 }

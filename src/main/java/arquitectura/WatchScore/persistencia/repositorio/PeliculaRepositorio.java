@@ -14,4 +14,6 @@ public interface PeliculaRepositorio extends JpaRepository<Pelicula,Long> {
     //List<Pelicula> findByActores(String nombreActor);
     Pelicula findByTitulo(String titulo);
 
+
+    boolean existsByTitulo(String titulo);
 }
