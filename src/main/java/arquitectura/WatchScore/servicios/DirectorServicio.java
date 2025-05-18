@@ -33,7 +33,7 @@ public class DirectorServicio {
     }
 
     public List<DirectorDTO> obtener(){
-        List<Director> directores = directorRepositorio.findAll();
+        List<Director> directores = directorRepositorio.findAllByOrderByNombreAsc();
         return directores.stream()
                 .map(director ->  {List<String> titulosPeliculas = director.getPeliculas().stream()
                         .map(Pelicula::getTitulo)

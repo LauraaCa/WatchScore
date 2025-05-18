@@ -80,7 +80,7 @@ public class PeliculaServicio {
     }
 
     public List<Pelicula> listarPeliculas() {
-        return peliculaRepositorio.findAll();
+        return peliculaRepositorio.findAllByOrderByTituloAsc();
     }
 
     public Pelicula agregarActorAPelicula(Long peliculaId, Long actorId) {

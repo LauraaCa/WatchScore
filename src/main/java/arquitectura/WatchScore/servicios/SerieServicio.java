@@ -171,4 +171,8 @@ public class SerieServicio {
         seriesRepositorio.deleteById(id);
     }
 
+    public Serie obtenerXId(Long id) {
+        return seriesRepositorio.findById(id)
+                .orElseThrow(() -> new RuntimeException("Serie no encontrada"));
+    }
 }

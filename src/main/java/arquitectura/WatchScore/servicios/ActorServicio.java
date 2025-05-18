@@ -31,7 +31,7 @@ public class ActorServicio {
     }
 
     public List<ActorDTO> obtener(){
-        List<Actor> actores = actorRepositorio.findAll();
+        List<Actor> actores = actorRepositorio.findAllByOrderByNombreAsc();
         return actores.stream()
                 .map(actor ->  {List<String> titulosPeliculas = actor.getPeliculas().stream()
                         .map(Pelicula::getTitulo)

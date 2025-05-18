@@ -31,6 +31,11 @@ public class SerieControlador {
         return seriesServicio.obtenerXtitulo(titulo);
     }
 
+    @GetMapping("/id/{id}")
+    public Serie obtenerXId(@PathVariable Long id){
+        return seriesServicio.obtenerXId(id);
+    }
+
 
     @PostMapping("/")
     public ResponseEntity<?> crearSerie(@RequestBody SeriesDTO serie) {
