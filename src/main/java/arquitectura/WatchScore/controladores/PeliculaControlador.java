@@ -57,4 +57,15 @@ public class PeliculaControlador {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Película no encontrada");
         }
     }
+
+    @PutMapping("/actualizar/{id}")
+    public PeliculasDTO actualizarPelicula(@PathVariable Long id, @RequestBody PeliculasDTO peliculasDTO) {
+        return peliculaServicio.actualizarPelicula(id, peliculasDTO);
+    }
+
+    @DeleteMapping("/eliminar/{id}")
+    public void eliminarPelicula(@PathVariable Long id) {
+        peliculaServicio.eliminarPelicula(id);
+    }
+
 }

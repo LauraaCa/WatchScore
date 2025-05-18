@@ -31,6 +31,11 @@ public class SerieControlador {
         return seriesServicio.obtenerXtitulo(titulo);
     }
 
+    @GetMapping("/id/{id}")
+    public Serie obtenerXId(@PathVariable Long id){
+        return seriesServicio.obtenerXId(id);
+    }
+
 
     @PostMapping("/")
     public ResponseEntity<?> crearSerie(@RequestBody SeriesDTO serie) {
@@ -53,5 +58,15 @@ public class SerieControlador {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PutMapping("/actualizar/{id}")
+    public SeriesDTO actualizarSerie(@PathVariable Long id, @RequestBody SeriesDTO seriesDTO) {
+        return seriesServicio.actualizarSerie(id, seriesDTO);
+    }
+
+    @DeleteMapping("/eliminar/{id}")
+    public void eliminarSerie(@PathVariable Long id) {
+        seriesServicio.eliminarSerie(id);
     }
 }
