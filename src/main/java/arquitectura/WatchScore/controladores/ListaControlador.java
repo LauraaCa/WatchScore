@@ -18,15 +18,12 @@ import java.util.List;
 public class ListaControlador {
     ListaServicio listaServicio;
 
-    @PostMapping("/usuario")
-    public ListaDTO crearLista(@RequestBody ListaDTO lista, HttpSession session) {
-        Long usuarioId = (Long) session.getAttribute("idusuario");
-
-        if (usuarioId == null) {
+    @PostMapping("/crear/{usuarioIdentificacion}")
+    public ListaDTO crearLista(@PathVariable Long usuarioIdentificacion,@RequestBody ListaDTO lista) {
+        if (usuarioIdentificacion == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
         }
-
-        return listaServicio.crearLista(usuarioId, lista);
+        return listaServicio.crearLista(usuarioIdentificacion, lista);
     }
 
     @PostMapping("/agregar/{listaNombre}/peliculas/{titulo}")
@@ -40,15 +37,9 @@ public class ListaControlador {
     }
 
 
-    @GetMapping("/mis")
-    public List<Lista> obtenerListasPorUsuario(HttpSession session) {
-        Long usuarioId = (Long) session.getAttribute("idusuario");
-
-        if (usuarioId == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
-        }
-
-        return listaServicio.obtenerListasPorUsuario(usuarioId);
+    @GetMapping("/misListas/{usuarioIdentificacion}")
+    public List<Lista> obtenerListasPorUsuario(@PathVariable Long usuarioIdentificacion) {
+        return listaServicio.obtenerListasPorUsuario(usuarioIdentificacion);
     }
 
     @GetMapping("/todo")
