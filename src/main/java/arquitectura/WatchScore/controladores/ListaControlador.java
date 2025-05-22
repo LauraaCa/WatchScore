@@ -6,6 +6,7 @@ import arquitectura.WatchScore.servicios.ListaServicio;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -46,4 +47,24 @@ public class ListaControlador {
     public List<ListaDTO> todo() {
         return listaServicio.todo();
     }
+
+    @DeleteMapping("/eliminar/{listaNombre}/peliculas/{titulo}")
+    public ListaDTO eliminarPeliculaDeLista(@PathVariable String listaNombre, @PathVariable String titulo) {
+        return listaServicio.eliminarContenidoDeLista(listaNombre, titulo, true);
+    }
+
+    @DeleteMapping("/eliminar/{listaNombre}/series/{titulo}")
+    public ListaDTO eliminarSerieDeLista(@PathVariable String listaNombre, @PathVariable String titulo) {
+        return listaServicio.eliminarContenidoDeLista(listaNombre, titulo, false);
+    }
+    @DeleteMapping("/eliminar/{listaNombre}")
+    public ResponseEntity<String> eliminarLista(@PathVariable String listaNombre) {
+        try {
+            listaServicio.eliminarListaPorNombre(listaNombre);
+            return ResponseEntity.ok("Lista eliminada correctamente");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 }

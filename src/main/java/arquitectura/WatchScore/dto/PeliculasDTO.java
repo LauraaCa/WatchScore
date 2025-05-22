@@ -15,3 +15,4 @@ public record PeliculasDTO(@NotBlank String titulo,
                            float calificacion,
                            List<String> actores){
 }
+

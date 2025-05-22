@@ -1,6 +1,7 @@
 package arquitectura.WatchScore.persistencia.entidades;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -44,4 +45,8 @@ public class Serie {
     @ManyToOne
     @JoinColumn(name = "director_id")
     private Director director;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Resena> resenas = new HashSet<>();
 }
