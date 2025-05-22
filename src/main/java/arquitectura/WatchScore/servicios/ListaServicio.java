@@ -93,4 +93,50 @@ public class ListaServicio {
                 })
                 .toList();
     }
+
+    public ListaDTO eliminarContenidoDeLista(String listaNombre, String contenidoTitulo, boolean esPelicula) {
+        Lista lista = listaRepositorio.findByNombre(listaNombre)
+                .orElseThrow(() -> new RuntimeException("Lista no encontrada"));
+
+        if (esPelicula) {
+            Pelicula pelicula = peliculaRepositorio.findByTitulo(contenidoTitulo);
+            if (pelicula == null) {
+                throw new RuntimeException("Película no encontrada");
+            }
+            if (!lista.getPeliculas().remove(pelicula)) {
+                throw new RuntimeException("Película no encontrada en la lista");
+            }
+        } else {
+            Serie serie = serieRepositorio.findByTitulo(contenidoTitulo);
+            if (serie == null) {
+                throw new RuntimeException("Serie no encontrada");
+            }
+            if (!lista.getSeries().remove(serie)) {
+                throw new RuntimeException("Serie no encontrada en la lista");
+            }
+        }
+
+        listaRepositorio.save(lista);
+
+        List<String> titulos = new ArrayList<>();
+        lista.getPeliculas().forEach(pelicula -> titulos.add(pelicula.getTitulo()));
+        lista.getSeries().forEach(serie -> titulos.add(serie.getTitulo()));
+
+        return new ListaDTO(
+                lista.getNombre(),
+                titulos,
+                lista.getUsuario().getIdentificacion()
+        );
+    }
+    public void eliminarListaPorNombre(String listaNombre) {
+        Lista lista = listaRepositorio.findByNombre(listaNombre)
+                .orElseThrow(() -> new RuntimeException("Lista no encontrada"));
+
+        // Limpiar asociaciones (solo la relación, no los contenidos)
+        lista.getPeliculas().clear();
+        lista.getSeries().clear();
+
+        listaRepositorio.delete(lista);
+    }
+
 }

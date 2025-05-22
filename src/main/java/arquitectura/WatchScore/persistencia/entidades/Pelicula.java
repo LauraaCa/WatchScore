@@ -43,6 +43,9 @@ public class Pelicula {
     @JoinColumn(name = "director_id")
     private Director director;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "pelicula", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Resena> resenas = new HashSet<>();
 
     @JsonIgnore
     @ManyToMany(mappedBy = "peliculas")
